@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify,render_template
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
@@ -17,8 +17,9 @@ data = cursor.fetchall()
 
 
 @app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def index():
-    return jsonify(data)
+    return render_template('login.html')
 
 
 if __name__ == '__main__':
