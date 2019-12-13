@@ -1,4 +1,4 @@
-from flask import Flask, jsonify,render_template
+from flask import Flask, flash, redirect, render_template, request, session, abort,url_for
 from flaskext.mysql import MySQL
 
 
@@ -17,14 +17,24 @@ mysql.init_app(app)
 # data = cursor.fetchall()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
-def index():
-    return render_template('login.html')
+def login_view():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return redirect('dashboard')
 
+@app.route('/login', methods=['POST'])
+def login():
+    if request.form['password'] == 'password' and request.form['email'] == 'talha@gmail.com':
+        session['logged_in'] = True
+    else:
+        flash('wrong password!')
+        return login_view()
 
-@app.route('/hello')
-def hello():
+@app.route('/dashboard')
+def dashboard():
     return render_template('dashboard.html')
 
 
