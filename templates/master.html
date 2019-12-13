@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  {% if title %}
+  <title>{{ title }} - HMS</title>
+  {% else %}
+  <title>Welcome to HMS</title>
+  {% endif %}
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/font-awesome/css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/Ionicons/css/ionicons.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/AdminLTE.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/skins/skin-blue.min.css') }}">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    {% block css %}{% endblock %}
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <!-- Main Header -->
+  {% include 'partials/header.html' %}
+  {% include 'partials/sidebar.html' %}
+
+  {% block content %}{% endblock %}
+
+  {% include 'partials/footer.html' %}
+</div>
+<script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
+{% block js %}{% endblock %}
+
+</body>
+</html>
