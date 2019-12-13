@@ -2,6 +2,8 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 from flaskext.mysql import MySQL
 
 
+
+
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
