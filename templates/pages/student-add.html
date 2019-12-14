@@ -1,0 +1,98 @@
+{% extends "master.html" %}
+
+{% block content %}
+   <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Student Registration
+        <small></small>
+      </h1>
+    </section>
+    <section class="content container-fluid">
+
+          <div class="box box-primary">
+
+
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" action="" method="post">
+              <div class="box-body">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Student Name</label>
+                    <input type="text" class="form-control" name="student_name" required placeholder="Enter student name">
+                  </div>
+                </div>
+
+
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Father Name</label>
+                    <input type="text" class="form-control" name="father_name" required placeholder="Enter father name">
+                  </div>
+                </div>
+
+
+                  <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Student Email</label>
+                    <input type="email" class="form-control" name="email" required placeholder="Enter  email">
+                  </div>
+                </div>
+
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Guardian Contact</label>
+                    <input type="text" class="form-control" name="contact" required placeholder="Enter guardian contact">
+                  </div>
+                </div>
+
+
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Program</label>
+                    <select name="program" required class="form-control">
+                      <option value="">--Please Select--</option>
+                      <option value="program">program</option>
+                      <option value="program">program</option>
+                      <option value="program">program</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Merit #</label>
+                    <input type="number" class="form-control" required name="merit" required placeholder="Enter merit #">
+                  </div>
+                </div>
+
+
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label >Address</label>
+                    <textarea name="address" required id=""  class="form-control" cols="30" rows="5"></textarea>
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Add</button>
+              </div>
+            </form>
+
+          </div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+         <div class="alert alert-success">{{message}} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    </section>
+</div>
+{% endblock %}

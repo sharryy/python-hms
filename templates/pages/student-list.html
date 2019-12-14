@@ -1,0 +1,101 @@
+{% extends "master.html" %}
+
+{% block content %}
+   <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Student Search
+        <small></small>
+      </h1>
+    </section>
+    <section class="content container-fluid">
+
+          <div class="box box-primary">
+
+
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" action="" method="get">
+              <div class="box-body">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Student Name</label>
+                    <input type="text" class="form-control" name="student_name"  placeholder="Enter student name">
+                  </div>
+                </div>
+
+
+
+
+
+                  <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Student Email</label>
+                    <input type="email" class="form-control" name="email"  placeholder="Enter  email">
+                  </div>
+                </div>
+
+
+
+
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Program</label>
+                    <select name="program"  class="form-control">
+                      <option value="">--Please Select--</option>
+                      <option value="program">program</option>
+                      <option value="program">program</option>
+                      <option value="program">program</option>
+                    </select>
+                  </div>
+                </div>
+
+<div class="col-xs-6">
+      <label >&nbsp;</label>
+    <div class="clearfix"></div>
+     <button type="submit" class="btn btn-primary">Search</button>
+</div>
+
+
+
+              </div>
+              <!-- /.box-body -->
+
+            </form>
+
+          </div>
+
+
+          <div class="box box-primary">
+              <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Father Name</th>
+                        <th>Email</th>
+                        <th>Guardian Contact</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if row %}
+                        {% for r in row %}
+                        <tr>
+                            <td>{{ r[1] }}</td>
+                            <td>{{ r[2] }}</td>
+                            <td>{{ r[3] }}</td>
+                            <td>{{ r[4] }}</td>
+                            <td><a href="">Edit</a></td>
+
+                        </tr>
+                        {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+
+
+
+    </section>
+</div>
+{% endblock %}

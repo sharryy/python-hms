@@ -61,6 +61,13 @@
       </div>
     </form>
 
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+         <div class="alert alert-danger">{{message}} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
 
 
