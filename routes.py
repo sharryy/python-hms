@@ -92,17 +92,20 @@ def student_add():
 def student_search():
     if session.get('logged_in'):
         if request.args.get('student_name') or request.args.get('email') or request.args.get('program'):
+            # select * from students where name = %s and
+
             sql = "SELECT * FROM students WHERE "
             data = list()
             if request.args.get('student_name'):
-                sql += " name = %s"
+                sql += " name = %s and"
                 data.append(request.args.get('student_name'))
             if request.args.get('email'):
-                sql += " student_email = %s"
+                sql += " student_email = %s and"
                 data.append(request.args.get('email'))
             if request.args.get('program'):
-                sql += " program = %s"
+                sql += " program = %s and"
                 data.append(request.args.get('program'))
+            sql = sql[:-3]
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.execute(sql, data)
