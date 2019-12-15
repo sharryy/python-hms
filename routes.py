@@ -88,6 +88,7 @@ def student_add():
     else:
         return redirect('login')
 
+
 @app.route('/student/search', methods=['GET'])
 def student_search():
     if session.get('logged_in'):
@@ -113,16 +114,46 @@ def student_search():
 
             return render_template('pages/student-list.html', title="Search Student",row= row)
         else:
-            return render_template('pages/student-list.html', title="Search Student")
+            sql = "SELECT * FROM students"
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            row = cursor.fetchall()
+            return render_template('pages/student-list.html', title="Search Student",row=row)
     else:
         return redirect('login')
 
 
+@app.route('/student/edit/<id>', methods=['GET'])
+def student_edit_view(id):
+    if session.get('logged_in'):
+        sql = "SELECT * FROM students where id = %s"
+        data = (id)
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, data)
+        row = cursor.fetchone()
+        return render_template('pages/student-edit.html', title="Edit Student",row =row)
+    else:
+        return redirect('login')
 
+@app.route('/student/edit', methods=['POST'])
+def student_edit():
+    if session.get('logged_in'):
+        sql = "UPDATE `students` SET `name`=%s , `father_name`=%s, `student_email`=%s, `guardian_contact`=%s, `address`=%s, `merit_no`=%s, `program`=%s WHERE id = %s"
+        data = (
+        request.form['student_name'], request.form['father_name'], request.form['email'], request.form['contact'],
+        request.form['address'], request.form['merit'], request.form['program'], request.form['id'])
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, data)
+        conn.commit()
+        flash("Student record has been updated")
+        id = request.form['id']
+        return redirect("/student/edit/" + str(id))
+    else:
+        return redirect('login')
 
-@app.route('/student/edit')
-def student_edit_view():
-    return render_template('pages/student-edit.html', title="Edit Student")
 
 @app.route('/visitors/add')
 def visitors_add_view():

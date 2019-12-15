@@ -54,6 +54,7 @@
       <label >&nbsp;</label>
     <div class="clearfix"></div>
      <button type="submit" class="btn btn-primary">Search</button>
+    <a href="/student/search" class="btn btn-danger">Reset</a>
 </div>
 
 
@@ -85,7 +86,7 @@
                             <td>{{ r[2] }}</td>
                             <td>{{ r[3] }}</td>
                             <td>{{ r[4] }}</td>
-                            <td><a href="">Edit</a></td>
+                            <td><a href="/student/edit/{{ r[0] }}">Edit</a></td>
                         </tr>
                         {% endfor %}
                       {% endif %}

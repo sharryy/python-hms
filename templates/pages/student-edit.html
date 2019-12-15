@@ -4,118 +4,95 @@
    <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Edit Your Information
+        Student Registration
         <small></small>
       </h1>
     </section>
     <section class="content container-fluid">
-        <section class="content container-fluid">
-        <form class="form-horizontal">
+
+          <div class="box box-primary">
+
+
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" action="/student/edit" method="post">
+              <input type="hidden" name="id" value="{{row[0]}}">
               <div class="box-body">
-                <div class="form-group">
-                  <label for="firstname3" class="col-sm-2 control-label">First Name</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="firstname3" placeholder="First Name">
-                  </div>
-                </div>
+                <div class="col-xs-6">
                   <div class="form-group">
-                  <label for="lastname3" class="col-sm-2 control-label">Last Name</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="lastname3" placeholder="Last Name">
+                    <label >Student Name</label>
+                    <input type="text" class="form-control" value="{{row[1]}}" name="student_name" required placeholder="Enter student name">
                   </div>
                 </div>
 
+
+                <div class="col-xs-6">
                   <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-
-                  <div class="col-sm-6">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                    <label >Father Name</label>
+                    <input type="text" class="form-control" value="{{row[2]}}" name="father_name" required placeholder="Enter father name">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
 
-                  <div class="col-sm-6">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                  </div>
-                </div>
+
+                  <div class="col-xs-6">
                   <div class="form-group">
-                  <label for="confirmedPassword3" class="col-sm-2 control-label">Confirmed Password</label>
-
-                  <div class="col-sm-6">
-                    <input type="password" class="form-control" id="confirmedPassword3" placeholder="Confirmed Password">
+                    <label >Student Email</label>
+                    <input type="email" class="form-control" value="{{row[3]}}" name="email" required placeholder="Enter  email">
                   </div>
                 </div>
-                   <div class="form-group">
-                  <label for="phone3" class="col-sm-2 control-label">Student's Contact</label>
 
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="phone3" placeholder="Student's Contact">
-                  </div>
-                </div>
-                   <div class="form-group">
-                  <label for="department3" class="col-sm-2 control-label">Department</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="department3" placeholder="Department">
-                  </div>
-                </div>
-                   <div class="form-group">
-                  <label for="program3" class="col-sm-2 control-label">Program</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="program3" placeholder="Program">
-                  </div>
-                </div>
-                   <div class="form-group">
-                  <label for="guardian3" class="col-sm-2 control-label">Parent/Guardian Name</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="guardian3" placeholder="Parent/Guardian Name">
-                  </div>
-                </div>
+                <div class="col-xs-6">
                   <div class="form-group">
-                  <label for="guardian_no3" class="col-sm-2 control-label">Guardian Contact.</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="guardian_no3" placeholder="Guardian Contact.">
+                    <label >Guardian Contact</label>
+                    <input type="text" class="form-control" name="contact" value="{{row[4]}}" required placeholder="Enter guardian contact">
                   </div>
                 </div>
+
+<!--{{ 'selected' if row['7'] == 'program' else '' }}-->
+                <div class="col-xs-6">
                   <div class="form-group">
-                  <label for="emergency3" class="col-sm-2 control-label">Emergency Contact.</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="emergency3" placeholder="Emergency Contact.">
-                  </div>
-                </div>
-                   <div class="form-group">
-                  <label for="merit3" class="col-sm-2 control-label">Merit Number.</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="merit3" placeholder="Merit Number">
+                    <label >Program</label>
+                    <select name="program" required class="form-control">
+                      <option value="">--Please Select--</option>
+                      <option  value="program1" {% if row[7] == "program1" %} selected {% endif %}>program1</option>
+                      <option  value="program2" {% if row[7] == "program2" %} selected {% endif %} >program2</option>
+                      <option  value="program3" {% if row[7] == "program3" %} selected {% endif %} >program3</option>
+                    </select>
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-6">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox"> Remember me
-                      </label>
-                    </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Merit #</label>
+                    <input type="number" class="form-control" value="{{row[6]}}"  required name="merit" required placeholder="Enter merit #">
                   </div>
                 </div>
+
+
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label >Address</label>
+                    <textarea name="address" required id=""   class="form-control" cols="30" rows="5">{{row[5]}}</textarea>
+                  </div>
+                </div>
+
+
               </div>
               <!-- /.box-body -->
+
               <div class="box-footer">
-                <button type="submit" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-info pull-right">Confirm Changes</button>
+                <button type="submit" class="btn btn-primary">Update</button>
               </div>
-              <!-- /.box-footer -->
             </form>
-    </section>
+
+          </div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+         <div class="alert alert-success">{{message}} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
     </section>
 </div>
