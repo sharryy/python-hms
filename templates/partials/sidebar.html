@@ -15,9 +15,9 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">HEADER</li>
+        <li class="header">HEADER {{session['type'] }}</li>
         <li class=""><a href="/dashboard"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
-
+        {% if session['type'] == 'm' %}
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i>
             <span>Students</span>
@@ -32,15 +32,42 @@
         </li>
 
 
-        <li class=""><a href="/student/edit"><i class="fa fa-link"></i> <span>Edit Student Information</span></a></li>
-        <li class=""><a href="/visitors/add"><i class="fa fa-link"></i> <span>Visitors Record</span></a></li>
-        <li class=""><a href="/visitors/edit"><i class="fa fa-link"></i> <span>Edit Visitors Record</span></a></li>
-        <li class=""><a href="/room/manage"><i class="fa fa-link"></i> <span>Room Management</span></a></li>
-        <li class=""><a href="/transport/add"><i class="fa fa-link"></i> <span>Add Vehicle Record</span></a></li>
-        <li class=""><a href="/transport/edit"><i class="fa fa-link"></i> <span>Edit Vehicle Record</span></a></li>
-        <li class=""><a href="/mess/off"><i class="fa fa-link"></i> <span>Mess-OFF</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i>
+            <span>Visitor</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class=""><a href="/visitor/add"><i class="fa fa-link"></i> <span>Add</span></a></li>
+            <li><a href="/visitor/search"><i class="fa fa-link"></i> <span>Search</span></a></li>
+          </ul>
+        </li>
+
+
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i>
+            <span>Rooms</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class=""><a href="/room/add"><i class="fa fa-link"></i> <span>Add</span></a></li>
+            <li><a href="/room/list"><i class="fa fa-link"></i> <span>list</span></a></li>
+                        <li><a href="/room/assign"><i class="fa fa-link"></i> <span>Room Assign</span></a></li>
+
+          </ul>
+        </li>
+
+        <li class=""><a href="/request/list"><i class="fa fa-link"></i> <span>Requests List</span></a></li>
+{% else %}
+        <li class=""><a href="/request/add"><i class="fa fa-link"></i> <span>Requests</span></a></li>
+
+        {% endif %}
 
       </ul>
-
     </section>
   </aside>

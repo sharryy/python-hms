@@ -1,0 +1,44 @@
+{% extends "master.html" %}
+
+{% block content %}
+   <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Room List
+        <small></small>
+      </h1>
+    </section>
+    <section class="content container-fluid">
+
+
+
+
+          <div class="box box-primary">
+              <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Capacity</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if row %}
+                        {% for r in row %}
+                        <tr>
+                            <td>{{ r[1] }}</td>
+                            <td>{{ r[2] }}</td>
+
+
+                        </tr>
+                        {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+
+
+
+    </section>
+</div>
+{% endblock %}

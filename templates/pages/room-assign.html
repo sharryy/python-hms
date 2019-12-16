@@ -1,0 +1,74 @@
+{% extends "master.html" %}
+
+{% block content %}
+   <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Assign Rooms
+        <small></small>
+      </h1>
+    </section>
+    <section class="content container-fluid">
+
+          <div class="box box-primary">
+
+
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" action="" method="post">
+              <div class="box-body">
+
+  <div class="col-xs-6">
+                  <div class="form-group">
+                    <label >Student Name</label>
+                      <select required name="student_id" class="form-control" id="">
+                          <option value="">--Please Select--</option>
+                          {% if students %}
+                            {% for r in students %}
+                          <option value="{{ r[0] }}">{{r[1]}} ({{ r[2] }})</option>
+                            {% endfor %}
+                          {% endif %}
+                      </select>
+
+
+                  </div>
+                </div>
+
+
+ <div class="col-xs-6">
+      <div class="form-group">
+        <label >Rooms</label>
+          <select required name="room_id" class="form-control" id="">
+              <option value="">--Please Select--</option>
+              {% if rooms %}
+                {% for r in rooms %}
+              <option value="{{ r[0] }}">{{r[1]}}</option>
+                {% endfor %}
+              {% endif %}
+          </select>
+      </div>
+    </div>
+
+
+
+
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Assign</button>
+              </div>
+            </form>
+
+          </div>
+       {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+         <div class="alert alert-{{ category }}">{{message}} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    </section>
+</div>
+{% endblock %}
