@@ -42,6 +42,8 @@ def login():
         if row:
             session['logged_in'] = True
             session['id'] = row[0]
+            session['student_id'] = row[1]
+
             session['name'] = row[2]
             session['email'] = row[3]
             session['type'] = row[7]
@@ -77,22 +79,83 @@ def student_add_view():
 @app.route('/request/add')
 def request_add_view():
     if session.get('logged_in'):
-        return render_template('pages/request-add.html', title="Add Request")
+        sql = "SELECT * FROM requests where student_id = %s "
+        data = (session.get('student_id'))
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,data)
+        row = cursor.fetchall()
+        return render_template('pages/request-add.html', title="Add Request",row=row)
     else:
         return redirect('login')
+
+@app.route('/mess-off/add')
+def mess_add_view():
+    if session.get('logged_in'):
+        sql = "SELECT * FROM mess_off where student_id = %s "
+        data = (session.get('student_id'))
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,data)
+        row = cursor.fetchall()
+        return render_template('pages/mess-add.html', title="Add Mess Off",row=row)
+    else:
+        return redirect('login')
+
+@app.route('/request/list')
+def request_list():
+    if session.get('logged_in'):
+        sql = "SELECT r.*,s.name FROM requests as r join students as s on s.id = r.student_id where r.status = %s and r.is_approve = %s"
+        data = ("t","f")
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,data)
+        row = cursor.fetchall()
+        return render_template('pages/request-list.html', title="Request List",row=row)
+    else:
+        return redirect('login')
+
+@app.route('/mess-off/list')
+def mess_list():
+    if session.get('logged_in'):
+        sql = "SELECT r.*,s.name FROM mess_off as r join students as s on s.id = r.student_id where r.status = %s and r.is_approve = %s"
+        data = ("t","f")
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,data)
+        row = cursor.fetchall()
+        return render_template('pages/mess-list.html', title="Mess List",row=row)
+    else:
+        return redirect('login')
+
+#
 
 @app.route('/request/add', methods=['POST'])
 def request_add():
     if session.get('logged_in'):
         sql = "INSERT INTO `requests` (`student_id`, `request_name`,`reason`,`status`, `created_at`, `updated_at`) values (%s,%s,%s,%s,%s,%s)"
-        data = (session.get('id'),request.form['type'], request.form['reason'],'t', datetime.now(), datetime.now())
+        data = (session.get('student_id'),request.form['type'], request.form['reason'],'t', datetime.now(), datetime.now())
         conn = mysql.connect()
         cursor = conn.cursor()
         cursor.execute(sql, data)
         conn.commit()
         flash("Request Successfully added")
-        return render_template('pages/request-add.html', title="Add Request")
+        return request_add_view()
+    else:
+        return redirect('login')
 
+
+@app.route('/mess-off/add', methods=['POST'])
+def messoff_add():
+    if session.get('logged_in'):
+        sql = "INSERT INTO `mess_off` (`student_id`, `from`,`to`,`is_approve`,`status`, `created_at`, `updated_at`) values (%s,%s,%s,%s,%s,%s,%s)"
+        data = (session.get('student_id'),request.form['from'], request.form['to'],'f','t', datetime.now(), datetime.now())
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, data)
+        conn.commit()
+        flash("Request Successfully added")
+        return mess_add_view()
     else:
         return redirect('login')
 
@@ -126,16 +189,76 @@ def room_add():
 def room_list():
     if session.get('logged_in'):
         sql = "SELECT * FROM rooms "
-
         conn = mysql.connect()
         cursor = conn.cursor()
         cursor.execute(sql)
         row = cursor.fetchall()
-
         return render_template('pages/room-list.html', title="Room List",row= row)
 
     else:
         return redirect('login')
+
+@app.route('/request/accept/<id>')
+def request_accept(id):
+    if session.get('logged_in'):
+        sql = "UPDATE requests SET is_approve = %s where id = %s"
+        data = ("t",id)
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, data)
+        conn.commit()
+        flash("Request has been accepted", 'success')
+        return request_list()
+    else:
+        return redirect('login')
+
+
+@app.route('/request/reject/<id>')
+def request_reject(id):
+    if session.get('logged_in'):
+        sql = "UPDATE requests SET status = %s where id = %s"
+        data = ("f",id)
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, data)
+        conn.commit()
+        flash("Request has been rejected", 'success')
+        return request_list()
+    else:
+        return redirect('login')
+
+
+
+
+@app.route('/mess/accept/<id>')
+def mess_accept(id):
+    if session.get('logged_in'):
+        sql = "UPDATE mess_off SET is_approve = %s where id = %s"
+        data = ("t",id)
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, data)
+        conn.commit()
+        flash("Request has been accepted", 'success')
+        return mess_list()
+    else:
+        return redirect('login')
+
+
+@app.route('/mess/reject/<id>')
+def mess_reject(id):
+    if session.get('logged_in'):
+        sql = "UPDATE mess_off SET status = %s where id = %s"
+        data = ("f",id)
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, data)
+        conn.commit()
+        flash("Request has been rejected", 'success')
+        return mess_list()
+    else:
+        return redirect('login')
+
 
 @app.route('/visitor/add')
 def visitor_add_view():

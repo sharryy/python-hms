@@ -1,0 +1,58 @@
+{% extends "master.html" %}
+
+{% block content %}
+   <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+         Request List
+        <small></small>
+      </h1>
+    </section>
+    <section class="content container-fluid">
+
+
+          <div class="box box-primary">
+              <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Type</th>
+                        <th>Reason</th>
+                        <th>Date</th>
+                        <th>Action</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if row %}
+                        {% for r in row %}
+                        <tr>
+                            <td>{{ r[8] }}</td>
+                            <td>{{ r[2] }}</td>
+                            <td>
+                                {{ r[3] }}
+                            </td>
+                            <td>{{ r[6] }}</td>
+                            <td>
+                                <a href="/request/accept/{{ r[0] }}" >Accept</a> | <a href="/request/reject/{{ r[0] }}" >Reject</a>
+                                
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                  </tbody>
+              </table>
+          </div>
+
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+         <div class="alert alert-success">{{message}} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    </section>
+</div>
+{% endblock %}

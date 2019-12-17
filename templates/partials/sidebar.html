@@ -15,7 +15,7 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">HEADER {{session['type'] }}</li>
+        <li class="header">HEADER</li>
         <li class=""><a href="/dashboard"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
         {% if session['type'] == 'm' %}
         <li class="treeview">
@@ -63,8 +63,10 @@
         </li>
 
         <li class=""><a href="/request/list"><i class="fa fa-link"></i> <span>Requests List</span></a></li>
+        <li class=""><a href="/mess-off/list"><i class="fa fa-link"></i> <span>Mess Off List</span></a></li>
 {% else %}
         <li class=""><a href="/request/add"><i class="fa fa-link"></i> <span>Requests</span></a></li>
+        <li class=""><a href="/mess-off/add"><i class="fa fa-link"></i> <span>Mess Off</span></a></li>
 
         {% endif %}
 
