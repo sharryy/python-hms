@@ -2,7 +2,7 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 from flaskext.mysql import MySQL
 from datetime import datetime
 from datetime import timedelta
-#import telerivet
+import telerivet
 
 
 app = Flask(__name__)
@@ -25,13 +25,7 @@ mysql.init_app(app)
 @app.route('/login', methods=['GET'])
 def login_view():
     if not session.get('logged_in'):
-        # tr = telerivet.API("aVtIv_lydhngNZAmIFoQpIBrUKPx6knA7SSW")
-        # project = tr.initProjectById("PJ577df1eeb2f5e2b8")
-        #
-        # sent_msg = project.sendMessage(
-        #     content="hello world",
-        #     to_number="+923338913130"
-        # )
+
         return render_template('login.html')
     else:
         return redirect('dashboard')
@@ -534,6 +528,13 @@ def student_insert_to_user(row):
     cursor = conn.cursor()
     cursor.execute(sql, data)
     conn.commit()
+    tr = telerivet.API("aVtIv_lydhngNZAmIFoQpIBrUKPx6knA7SSW")
+    project = tr.initProjectById("PJ577df1eeb2f5e2b8")
+
+    sent_msg = project.sendMessage(
+        content="hello "+ str(row[1])+ " welcome to NHMS",
+        to_number=str(row[4])
+    )
 
 
 def is_student_exist(email):
