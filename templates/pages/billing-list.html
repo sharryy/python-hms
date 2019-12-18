@@ -1,0 +1,80 @@
+{% extends "master.html" %}
+
+{% block content %}
+   <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Billing List
+        <small></small>
+      </h1>
+    </section>
+    <section class="content container-fluid">
+
+
+          <div class="box box-primary">
+              <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                        {% if not session.get('student_id') %}
+                        <th>Student Name</th>
+                        {% endif %}
+                        <th>Mess Off</th>
+                        <th>Fix Charges</th>
+                        <th>Mess Charges</th>
+                        <th>Total</th>
+                        <th>Received</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        {% if not session.get('student_id') %}
+                        <th>Action</th>
+                        {% endif %}
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if row %}
+                        {% for r in row %}
+                        <tr>
+                            {% if not session.get('student_id') %}
+                                <td>{{ r[12] }}</td>
+                            {% endif %}
+                             <td>{{ r[2] }}</td>
+                            <td>{{ r[3] }}</td>
+                            <td>{{ r[4] }}</td>
+                            <td>{{ r[5] }}</td>
+                            <td>
+                                 {{ r[6] }}
+                            </td>
+                             <td>
+                                 {{ r[7] }}
+                            </td>
+                             <td>
+                                 {{ r[8] }}
+                            </td>
+
+                            {% if not session.get('student_id') %}
+                            {% if  r[6] == 'f' %}
+                       <td><a href="/bill/paid/{{r[0]}}">Paid</a> </td>
+                        {% endif %}{% endif %}
+
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                  </tbody>
+              </table>
+
+
+          </div>
+
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+         <div class="alert alert-success">{{message}} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    </section>
+</div>
+{% endblock %}

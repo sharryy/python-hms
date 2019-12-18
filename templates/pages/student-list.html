@@ -95,7 +95,7 @@
                             </td>
                             <td>
                                 <a href="/student/edit/{{ r[0] }}">Edit</a> {% if r[10] is none %}| <a href="/student/signup/{{ r[0] }}">Signup</a> {% endif %}
-                                {% if r[11] is not none %} | <a href="/student/remove/room/{{ r[0] }}">Remove Room</a> {% endif %}
+                                {% if r[11] is not none %} | <a href="/student/remove/room/{{ r[0] }}">Remove Room</a> | <a href="/student/generate/bill/{{ r[0] }}">Generate Bill</a> {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

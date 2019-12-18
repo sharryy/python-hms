@@ -1,6 +1,9 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort,url_for,jsonify
 from flaskext.mysql import MySQL
 from datetime import datetime
+from datetime import timedelta
+#import telerivet
+
 
 app = Flask(__name__)
 app.secret_key = "alsjkdlkajshflkshjdfa"
@@ -22,6 +25,13 @@ mysql.init_app(app)
 @app.route('/login', methods=['GET'])
 def login_view():
     if not session.get('logged_in'):
+        # tr = telerivet.API("aVtIv_lydhngNZAmIFoQpIBrUKPx6knA7SSW")
+        # project = tr.initProjectById("PJ577df1eeb2f5e2b8")
+        #
+        # sent_msg = project.sendMessage(
+        #     content="hello world",
+        #     to_number="+923338913130"
+        # )
         return render_template('login.html')
     else:
         return redirect('dashboard')
@@ -198,6 +208,93 @@ def room_list():
     else:
         return redirect('login')
 
+
+@app.route('/billing/list', methods=['GET'])
+def billing_list():
+    if session.get('logged_in'):
+        sql = "SELECT b.*,s.name FROM billing as b join students as s on s.id = b.student_id"
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        row = cursor.fetchall()
+        return render_template('pages/billing-list.html', title="Billing List",row= row)
+
+    else:
+        return redirect('login')
+
+#/billing/list/student
+@app.route('/billing/list/student', methods=['GET'])
+def billing_list_stude():
+    if session.get('logged_in'):
+        sql = "SELECT  * FROM billing where student_id = %s"
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,(session.get('student_id')))
+        row = cursor.fetchall()
+        return render_template('pages/billing-list.html', title="Billing List",row= row)
+
+    else:
+        return redirect('login')
+
+
+
+@app.route('/bill/paid/<id>', methods=['GET'])
+def bill_paid_stude(id):
+    if session.get('logged_in'):
+        sql = "UPDATE billing SET is_received = %s  where id = %s"
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,("t",str(id)))
+        conn.commit()
+
+        return redirect('/billing/list')
+
+    else:
+        return redirect('login')
+
+
+@app.route('/student/generate/bill/<id>', methods=['GET'])
+def student_generate_bill(id):
+    if session.get('logged_in'):
+        today = datetime.today()
+        yesterday = today - timedelta(days=29)
+
+
+        sql = "SELECT abs(sum(DATEDIFF(`from`, `to`))) from mess_off where student_id = %s and is_approve = %s and  MONTH(created_at) = %s and  YEAR(created_at) = %s"
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,(id,"t",str(yesterday.month),str(yesterday.year)))
+        row = cursor.fetchone()
+        if not (row[0] is None):
+            off = str(row[0])
+        else:
+            off = "0"
+        mess_charges = (30 - int(off)) * 200
+
+        sql = "SELECT * FROM billing where student_id = %s   and  month = %s "
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql,(id,str(yesterday.month)+"-"+str(yesterday.year)))
+        row = cursor.fetchall()
+
+        if not row:
+            sql = "INSERT INTO `billing` (`student_id`, `mess_off_count`, `fix_charges`, `mess_charges`, `total`,`created_at`, `updated_at`,`month`) values (%s,%s,%s,%s,%s,%s,%s,%s)"
+            data = (id, off, "4000", str(mess_charges), (int(4000) + int(mess_charges)),
+                    datetime.now(), datetime.now(),str(yesterday.month)+"-"+str(yesterday.year))
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql, data)
+            conn.commit()
+
+
+
+        return redirect('/billing/list')
+    else:
+        return redirect('login')
+
+
+#
+
 @app.route('/request/accept/<id>')
 def request_accept(id):
     if session.get('logged_in'):
@@ -226,7 +323,6 @@ def request_reject(id):
         return request_list()
     else:
         return redirect('login')
-
 
 
 
@@ -573,6 +669,9 @@ def transport_edit_view():
 @app.route('/mess/off')
 def mess_off():
     return render_template('pages/mess-off.html', title="Mess Off")
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
